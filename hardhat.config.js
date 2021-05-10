@@ -8,6 +8,7 @@ require("hardhat-spdx-license-identifier");
 require("hardhat-docgen");
 require("@nomiclabs/hardhat-etherscan");
 require("hardhat-contract-sizer");
+require("@typechain/hardhat");
 
 let secret;
 
@@ -74,5 +75,8 @@ module.exports = {
   gasReporter: {
     currency: "USD",
     coinmarketcap: "b0c64afd-6aca-4201-8779-db8dc03e9793"
+  },
+  typechain: {
+    target: "truffle-v5"
   }
 };
