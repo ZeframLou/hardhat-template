@@ -1,14 +1,15 @@
-require("@nomiclabs/hardhat-truffle5");
-require("@nomiclabs/hardhat-web3");
-require("solidity-coverage");
-require("hardhat-deploy");
-require("hardhat-gas-reporter");
-require("@nomiclabs/hardhat-solhint");
-require("hardhat-spdx-license-identifier");
-require("hardhat-docgen");
-require("@nomiclabs/hardhat-etherscan");
-require("hardhat-contract-sizer");
-require("@typechain/hardhat");
+import "@nomiclabs/hardhat-waffle";
+import "solidity-coverage";
+import "hardhat-deploy";
+import "hardhat-gas-reporter";
+import "@nomiclabs/hardhat-solhint";
+import "hardhat-spdx-license-identifier";
+import "hardhat-docgen";
+import "@nomiclabs/hardhat-etherscan";
+import "hardhat-contract-sizer";
+import "@typechain/hardhat";
+
+import { HardhatUserConfig } from "hardhat/config";
 
 let secret;
 
@@ -21,7 +22,7 @@ try {
   };
 }
 
-module.exports = {
+const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.3",
     settings: {
@@ -52,10 +53,10 @@ module.exports = {
       gasPrice: 84.0000001e9
     },
     hardhat: {
-      forking: {
+      /*forking: {
         url:
           "https://eth-mainnet.alchemyapi.io/v2/pvGDp1uf8J7QZ7MXpLhYs_SnMnsE0TY5"
-      }
+      }*/
     }
   },
   spdxLicenseIdentifier: {
@@ -77,6 +78,8 @@ module.exports = {
     coinmarketcap: "b0c64afd-6aca-4201-8779-db8dc03e9793"
   },
   typechain: {
-    target: "truffle-v5"
+    target: "ethers-v5"
   }
 };
+
+export default config;
