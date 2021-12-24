@@ -1,3 +1,6 @@
+import * as dotenv from "dotenv";
+dotenv.config();
+
 import "@nomiclabs/hardhat-waffle";
 import "solidity-coverage";
 import "hardhat-deploy";
@@ -8,78 +11,63 @@ import "hardhat-docgen";
 import "@nomiclabs/hardhat-etherscan";
 import "hardhat-contract-sizer";
 import "@typechain/hardhat";
+import "hardhat-deploy-ethers";
 
 import { HardhatUserConfig } from "hardhat/config";
 
-let secret;
-
-try {
-  secret = require("./secret.json");
-} catch {
-  secret = {
-    account: "",
-    mnemonic: ""
-  };
-}
+const accounts = process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [];
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.3",
+    version: "0.8.10",
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
-      }
-    }
+        runs: 1000000,
+      },
+    },
   },
   namedAccounts: {
     deployer: {
-      default: 1
-    }
+      default: 1,
+    },
   },
   paths: {
-    sources: "./contracts"
+    sources: "./contracts",
   },
   networks: {
     mainnet: {
-      url:
-        "https://eth-mainnet.alchemyapi.io/v2/pvGDp1uf8J7QZ7MXpLhYs_SnMnsE0TY5",
+      url: process.env.MAINNET_RPC_URL ?? "",
       chainId: 1,
-      from: secret.account,
-      accounts: {
-        mnemonic: secret.mnemonic
-      },
-      gas: "auto",
-      gasPrice: 84.0000001e9
+      accounts,
     },
-    hardhat: {
-      /*forking: {
-        url:
-          "https://eth-mainnet.alchemyapi.io/v2/pvGDp1uf8J7QZ7MXpLhYs_SnMnsE0TY5"
-      }*/
-    }
+    rinkeby: {
+      url: process.env.RINKEBY_RPC_URL ?? "",
+      chainId: 4,
+      accounts,
+    },
   },
   spdxLicenseIdentifier: {
-    runOnCompile: true
+    runOnCompile: true,
   },
   docgen: {
     except: [],
     clear: true,
-    runOnCompile: false
+    runOnCompile: false,
   },
   mocha: {
-    timeout: 60000
+    timeout: 60000,
   },
   etherscan: {
-    apiKey: "SCTNNP3MJK18WV84QIX6WPGMWIS8H1J9W7"
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
   gasReporter: {
     currency: "USD",
-    coinmarketcap: "b0c64afd-6aca-4201-8779-db8dc03e9793"
+    coinmarketcap: process.env.COINMARKETCAP_API_KEY,
   },
   typechain: {
-    target: "ethers-v5"
-  }
+    target: "ethers-v5",
+  },
 };
 
 export default config;

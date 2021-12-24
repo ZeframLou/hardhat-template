@@ -1,14 +1,11 @@
-#Buidler files
 cache
 artifacts
+docgen
+typechain
 
 node_modules
-secret.json
+.env
 
 #solidity-coverage files
 coverage
 coverage.json
-
-docgen
-
-typechain
